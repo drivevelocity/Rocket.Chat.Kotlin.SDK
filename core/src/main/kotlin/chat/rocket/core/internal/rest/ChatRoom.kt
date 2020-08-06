@@ -621,20 +621,20 @@ suspend fun RocketChatClient.searchMessages(
 }
 
 /**
- * Return a list of users in a channel [roomName] that have roles other than 'user' on it.
+ * Return a list of users in a channel [roomId] that have roles other than 'user' on it.
  *
  * @param roomType Type of the room (DIRECT, GROUP, CHANNEL, etc)
- * @param roomName Name of the room to query user's roles.
+ * @param roomId Name of the room to query user's roles.
  *
  * @return List of [ChatRoomRole] objects.
  */
 suspend fun RocketChatClient.chatRoomRoles(
     roomType: RoomType,
-    roomName: String
+    roomId: String
 ): List<ChatRoomRole> = withContext(Dispatchers.IO) {
 
     val httpUrl = requestUrl(restUrl, getRestApiMethodNameByRoomType(roomType, "roles"))
-        .addQueryParameter("roomName", roomName)
+        .addQueryParameter("roomId", roomId)
         .build()
 
     val request = requestBuilderForAuthenticatedMethods(httpUrl).get().build()
