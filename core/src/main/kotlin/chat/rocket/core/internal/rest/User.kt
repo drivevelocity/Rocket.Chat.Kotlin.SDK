@@ -254,8 +254,13 @@ internal fun RocketChatClient.combine(
         // In case of any inconsistency we just ignore the room/subscription...
         // This should be a very, very rare situation, like the user leaving/joining a channel
         // between the 2 calls.
-        room?.let {
-            chatRooms.add(ChatRoom.create(room, subscription, this))
+        if (room != null) {
+            room?.let {
+                chatRooms.add(ChatRoom.create(room, subscription, this))
+            }
+        }
+        else {
+            chatRooms.add(ChatRoom.create(subscription, this))
         }
     }
 
@@ -267,21 +272,33 @@ internal fun RocketChatClient.combineRemoved(
     subscriptions: List<Removed>?,
     filterCustom: Boolean
 ): List<Removed> {
-    val map = HashMap<String, Removed>()
+    val mapRooms = HashMap<String, Removed>()
     rooms?.forEach {
-        map[it.id] = it
+        mapRooms[it.id] = it
     }
+    val mapSubscriptions = HashMap<String, Removed>()
+    subscriptions?.forEach {
+        mapSubscriptions[it.id] = it
+    }
+
 
     val removed = ArrayList<Removed>(subscriptions?.size ?: 0)
 
     subscriptions?.forEach {
-        val room = map[it.id]
-        val subscription = it
+        val room = mapRooms[it.id]
+        val subscription = mapSubscriptions[it.id]
         // In case of any inconsistency we just ignore the room/subscription...
         // This should be a very, very rare situation, like the user leaving/joining a channel
         // between the 2 calls.
-        room?.let {
-            removed.add(it)
+        if (room != null) {
+            room?.let {
+                removed.add(it)
+            }
+        }
+        else {
+            subscription?.let {
+                removed.add(it)
+            }
         }
     }
 

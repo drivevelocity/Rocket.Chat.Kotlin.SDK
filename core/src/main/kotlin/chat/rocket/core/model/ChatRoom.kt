@@ -52,7 +52,7 @@ data class ChatRoom(
                 user = room.user ?: subscription.user,
                 status = null,
                 name = if (!subscription.parentId.isNullOrEmpty()) subscription.fullName!! else room.name
-                    ?: subscription.name!!, // we guarantee on listSubscriptions() that it has a name
+                        ?: subscription.name!!, // we guarantee on listSubscriptions() that it has a name
                 fullName = room.fullName ?: subscription.fullName,
                 readonly = room.readonly,
                 updatedAt = room.updatedAt ?: subscription.updatedAt,
@@ -74,6 +74,37 @@ data class ChatRoom(
                 client = client,
                 broadcast = room.broadcast,
                 muted = room.muted
+            )
+        }
+        fun create(subscription: Subscription, client: RocketChatClient): ChatRoom {
+            return ChatRoom(id = subscription.roomId,
+                subscriptionId = subscription.id,
+                parentId = subscription.parentId,
+                type = subscription.type,
+                user = subscription.user,
+                status = null,
+                name = if (!subscription.parentId.isNullOrEmpty()) subscription.fullName!! else subscription.name!!, // we guarantee on listSubscriptions() that it has a name
+                fullName = subscription.fullName,
+                readonly = subscription.readonly,
+                updatedAt = subscription.updatedAt ?: subscription.updatedAt,
+                timestamp = subscription.timestamp,
+                lastSeen = subscription.lastSeen,
+                topic = subscription.topic,
+                description = subscription.topic,
+                announcement = subscription.announcement,
+                default = subscription.isDefault,
+                favorite = subscription.isFavorite,
+                open = subscription.open,
+                alert = subscription.alert,
+                unread = subscription.unread,
+                roles = subscription.roles,
+                archived = subscription.archived,
+                userMentions = subscription.userMentions,
+                groupMentions = subscription.groupMentions,
+                lastMessage = subscription.lastMessage,
+                client = client,
+                broadcast = subscription.broadcast,
+                muted = subscription.muted
             )
         }
     }

@@ -4,6 +4,7 @@ import chat.rocket.common.internal.ISO8601Date
 import chat.rocket.common.model.BaseRoom
 import chat.rocket.common.model.RoomType
 import chat.rocket.common.model.SimpleUser
+import chat.rocket.core.model.LastMessage
 import com.squareup.moshi.Json
 import se.ansman.kotshi.JsonSerializable
 
@@ -30,7 +31,13 @@ data class Subscription(
     val archived: Boolean?,
     val unread: Long?,
     val userMentions: Long?,
-    val groupMentions: Long?
+    val groupMentions: Long?,
+    val topic: String?,
+    val description: String?,
+    val announcement: String?,
+    val lastMessage: LastMessage?,
+    val broadcast: Boolean?,
+    @JvmField val muted: List<String>? = null
 ) : BaseRoom {
     val lastModified: Long?
         get() = lastSeen
