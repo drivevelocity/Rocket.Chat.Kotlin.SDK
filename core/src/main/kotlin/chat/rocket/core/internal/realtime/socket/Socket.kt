@@ -243,7 +243,7 @@ class Socket(
     }
 
     internal fun send(message: String) {
-        logger.debug { "Sending messagE: $message" }
+        logger.debug { "Sending message: $message" }
         socket?.send(message)
     }
 

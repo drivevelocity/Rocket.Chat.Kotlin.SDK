@@ -16,6 +16,6 @@ data class DirectMessage(
     val type: RoomType? = null,
     @Json(name = "ts")
     @ISO8601Date
-    val timestamp: Long,
+    val timestamp: Long = System.currentTimeMillis(),
     val usernames: List<String>
 )

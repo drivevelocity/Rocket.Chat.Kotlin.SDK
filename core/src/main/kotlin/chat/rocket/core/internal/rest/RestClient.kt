@@ -29,11 +29,11 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-internal fun getRestApiMethodNameByRoomType(roomType: RoomType, method: String): String {
+internal fun getRestApiMethodNameByRoomType(roomType: RoomType, method: String, useDM: Boolean = false): String {
     return when (roomType) {
         is RoomType.Channel -> "channels.$method"
         is RoomType.PrivateGroup -> "groups.$method"
-        is RoomType.DirectMessage -> "im.$method"
+        is RoomType.DirectMessage -> if (useDM) "dm.$method" else "im.$method"
     // TODO - handle custom rooms
         else -> "channels.$method"
     }
